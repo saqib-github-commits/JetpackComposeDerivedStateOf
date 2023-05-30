@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.jetpackcompose.derivedstateof.app-mergeDebugResources-36:/values-km/values-km.xml",
+            "outputFile": "com.jetpackcompose.derivedstateof.app-mergeDebugResources-35:/values-km/values-km.xml",
             "map": [
                 {
-                    "source": "/Users/saqibusman/.gradle/caches/transforms-3/24f4e099d209265d11c9d6ea502b9a99/transformed/ui-1.2.0/res/values-km/values-km.xml",
+                    "source": "/Users/saqibusman/.gradle/caches/transforms-3/f69513434c71ee6854f84a585654fd7a/transformed/ui-1.2.0/res/values-km/values-km.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -21,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "/Users/saqibusman/.gradle/caches/transforms-3/9e6c59fa836bf02be7604ca30953af03/transformed/core-1.7.0/res/values-km/values-km.xml",
+                    "source": "/Users/saqibusman/.gradle/caches/transforms-3/0742f943bf42b07ebfef9b43c1e45de6/transformed/core-1.7.0/res/values-km/values-km.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
