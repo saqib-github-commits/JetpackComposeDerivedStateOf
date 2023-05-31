@@ -1,7 +1,7 @@
 package com.jetpackcompose.derivedstateof
 
+
 import androidx.compose.foundation.layout.*
-//import androidx.compose.foundation.layout.RowScopeInstance.weight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -9,7 +9,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.testTag
+import kotlinx.coroutines.delay
 
 @Composable
 fun ConversationScreen() {
@@ -17,31 +17,37 @@ fun ConversationScreen() {
     val messages = SampleData.conversationSample
 
     Box(modifier = Modifier.fillMaxSize()) {
+        var threshold by remember { mutableStateOf(0) }
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
             state = lazyListState
         ) {
             messages.map { item { MessageCard(it) } }
         }
-        ScrollToTopBtnWithDerivedStateOf(lazyListState)
+        ScrollToTopBtnWithThreshold(lazyListState, threshold)
+
+        LaunchedEffect(key1 = Unit) {
+            delay(5000L)
+            threshold = 20
+        }
     }
 }
 
 @Composable
-fun DerivedAndRememberedScrollToTop(lazyListState: LazyListState) {
-    val isEnabledDerived by remember { derivedStateOf { lazyListState.firstVisibleItemIndex > 1 }}
-    val isEnabledRemembered = remember(lazyListState.firstVisibleItemIndex) { lazyListState.firstVisibleItemIndex > 1}
+fun ScrollToTopDerivedAndRememberedCase(lazyListState: LazyListState) {
+    val isEnabledDerivedStateCase by remember { derivedStateOf { lazyListState.firstVisibleItemIndex > 0 }}
+    val isEnabledRememberCase = remember(lazyListState.firstVisibleItemIndex) { lazyListState.firstVisibleItemIndex > 0}
 
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Bottom,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Button(onClick = { /*TODO*/ }, enabled = isEnabledDerived) {
+        Button(onClick = { /*TODO*/ }, enabled = isEnabledDerivedStateCase) {
             Text(text = "Derived State Button")
         }
 
-        Button(onClick = { /*TODO*/ }, enabled = isEnabledRemembered) {
+        Button(onClick = { /*TODO*/ }, enabled = isEnabledRememberCase) {
             Text(text = "Remembered Button")
         }
     }
@@ -56,9 +62,10 @@ fun ScrollToTopBtnWithoutDerivedStateOf(lazyListState: LazyListState) {
     }
 }
 
+
 @Composable
 fun ScrollToTopBtnWithDerivedStateOf(lazyListState: LazyListState) {
-    val isEnabled by remember { derivedStateOf {  lazyListState.firstVisibleItemIndex > 0 } }
+    val isEnabled by remember { derivedStateOf { lazyListState.firstVisibleItemIndex > 0 } }
 
     Button(onClick = { /*TODO*/ }, enabled = isEnabled) {
         Text(text = "Scroll To Top")
@@ -66,6 +73,39 @@ fun ScrollToTopBtnWithDerivedStateOf(lazyListState: LazyListState) {
 
 }
 
+@Composable
+fun ScrollToTopBtnWithoutRemember(lazyListState: LazyListState) {
+    val isEnabled by derivedStateOf { lazyListState.firstVisibleItemIndex > 0 }
+
+    Button(onClick = { /*TODO*/ }, enabled = isEnabled) {
+        Text(text = "Scroll To Top")
+    }
+}
+
+@Composable
+fun ScrollToTopBtnWithThreshold(lazyListState: LazyListState, threshold: Int) {
+    val isEnabled by remember { derivedStateOf { lazyListState.firstVisibleItemIndex > threshold } }
+
+    Button(onClick = { /*TODO*/ }, enabled = isEnabled) {
+        Text(text = "Scroll To Top")
+    }
+}
+
+@Composable
+fun ScrollToTopBtnWithThresholdAsKey(lazyListState: LazyListState, threshold: Int) {
+    val isEnabled by remember(threshold) { derivedStateOf { lazyListState.firstVisibleItemIndex > threshold } }
+
+    Button(onClick = { /*TODO*/ }, enabled = isEnabled) {
+        Text(text = "Scroll To Top")
+    }
+}
+
+@Composable
+fun fullName(firstName: String, lastName: String) {
+    val fullName = remember(firstName, lastName) {
+        "$firstName $lastName"
+    }
+}
 
 object SampleData {
     // Sample conversation data
